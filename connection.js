@@ -51,7 +51,7 @@ function Connection(config) {
   }
 
   // Format the full API URL:
-  this.host = config.host + '/stores/' + config.hash + '/v3/catalog';
+  this.host = config.host + '/stores/' + config.hash + '/v2/';
 
   // Assign config locally:
   this.config = config;

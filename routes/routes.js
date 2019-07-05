@@ -25,7 +25,7 @@ var appRouter = function (app) {
 
     app.get("/all", function(req, res) {
         // console.log(res)
-       api.get("/brands")
+       api.get("/orders")
        .then((response) => {
            console.log(response);
             let responseData = { response };
@@ -36,17 +36,6 @@ var appRouter = function (app) {
            console.log(err)
        })
     });
-
-    // app.get("/:id", function(req, res) {
-    //     api.get(`/brands/${req.param.id}`)
-    //     .then((response) => {
-    //         let responseData = { response };
-    //         res.status(200).json(responseData);
-    //     })
-    //     .catch((err) => {
-    //         console.log(err)
-    //     })
-    // });
 
 };
 
