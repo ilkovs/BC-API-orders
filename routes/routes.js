@@ -3,9 +3,9 @@ require('dotenv').config();
 
 //Initialize new API Connection:
 var api = new Connection({
-    hash: 'zkbvw',
-    token: 'dkuqkg7ambphoelcme2cqp5uaxcjrua',
-    cid: 'd3t9vhk489zawh10q9dao226h5g0z51',
+    hash: 'mf2ue9h',
+    token: '9umvbiq17vyvmzmczut20uchxc4bqfk',
+    cid: 'q2cj8xpan1phkt5yz8fi5qwmakspic8',
     host: 'https://api.bigcommerce.com' //The BigCommerce API Host
 });
 
