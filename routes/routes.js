@@ -26,44 +26,48 @@ var appRouter = function (app) {
 
     app.get("/all", function (req, res) {
 
-        api.get("/orders")
-            .then((response) => {
-                let responseData = { response };
-                res.status(200).json(responseData);
-                                
-                var today = new Date();
-                today.setDate(today.getDate() - 3);
-                // var oneWeekAgo = new Date(today.getTime() - (60*60*24*7*1000));
-                // console.log(oneWeekAgo.toUTCString());
-                // oneWeekAgo = oneWeekAgo.toUTCString().slice(0, 26) + '+0000';
-                // console.log(oneWeekAgo)
+        updateOrderStatus = () => {
 
-                Object.keys(responseData.response).forEach(function() {
-                                        
-                    for(var i=0; i < responseData.response.length; i++) {
+            api.get("/orders")
+                .then((response) => {
+                    let responseData = { response };
+                    res.status(200).json(responseData);
 
-                        var orderDate = new Date(responseData.response[i].date_created);
+                    var today = new Date();
+                    today.setDate(today.getDate() - 3);
 
-                        console.log(orderDate + '  >  ' + today);
 
-                        if ( responseData.response[i].status_id !== 10 && orderDate > today) {
-                            api.put('/orders/'+ responseData.response[i].id, {
-                                status_id: 10
-                            }).then(res => {
+                    Object.keys(responseData.response).forEach(function () {
 
-                            }).catch((err) => {
-                                console.log(err);
-                            });
+                        for (var i = 0; i < responseData.response.length; i++) {
+
+                            var orderDate = new Date(responseData.response[i].date_created);
+
+                            // console.log(orderDate + '  >  ' + today);
+
+                            if (responseData.response[i].status_id !== 11 && orderDate > today) {
+                                api.put('/orders/' + responseData.response[i].id, {
+                                    status_id: 11
+                                }).then(res => {
+
+                                }).catch((err) => {
+                                    console.log(err);
+                                });
+                            }
+
                         }
+                    });
 
-                    }
-                });
-                
-            })
-            .catch((err) => {
-                console.log(err)
-            })
+
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+        }
+
+        updateOrderStatus();
     });
+
 
 };
 
