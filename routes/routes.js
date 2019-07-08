@@ -4,8 +4,8 @@ require('dotenv').config();
 //Initialize new API Connection:
 var api = new Connection({
     hash: 'mf2ue9h',
-    token: '9umvbiq17vyvmzmczut20uchxc4bqfk',
-    cid: 'q2cj8xpan1phkt5yz8fi5qwmakspic8',
+    token: 'lg7cdu7phvxmb8uflcq6cq3nzbkxobl',
+    cid: 'ququ4agtpaoiydgvtx2d4v1rr0eb2ok',
     host: 'https://api.bigcommerce.com' //The BigCommerce API Host
 });
 
@@ -24,18 +24,45 @@ var appRouter = function (app) {
         });
     });
 
-    app.get("/all", function(req, res) {
-        // console.log(res)
-       api.get("/orders")
-       .then((response) => {
-           console.log(response);
-            let responseData = { response };
-            res.status(200).json(responseData);
-            // console.log(responseData);
-       })
-       .catch((err) => {
-           console.log(err)
-       })
+    app.get("/all", function (req, res) {
+
+        api.get("/orders")
+            .then((response) => {
+                let responseData = { response };
+                res.status(200).json(responseData);
+                                
+                var today = new Date();
+                today.setDate(today.getDate() - 3);
+                // var oneWeekAgo = new Date(today.getTime() - (60*60*24*7*1000));
+                // console.log(oneWeekAgo.toUTCString());
+                // oneWeekAgo = oneWeekAgo.toUTCString().slice(0, 26) + '+0000';
+                // console.log(oneWeekAgo)
+
+                Object.keys(responseData.response).forEach(function() {
+                                        
+                    for(var i=0; i < responseData.response.length; i++) {
+
+                        var orderDate = new Date(responseData.response[i].date_created);
+
+                        console.log(orderDate + '  >  ' + today);
+
+                        if ( responseData.response[i].status_id !== 10 && orderDate > today) {
+                            api.put('/orders/'+ responseData.response[i].id, {
+                                status_id: 10
+                            }).then(res => {
+
+                            }).catch((err) => {
+                                console.log(err);
+                            });
+                        }
+
+                    }
+                });
+                
+            })
+            .catch((err) => {
+                console.log(err)
+            })
     });
 
 };
