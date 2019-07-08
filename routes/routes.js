@@ -64,8 +64,9 @@ var appRouter = function (app) {
                     console.log(err)
                 })
         }
-
-        updateOrderStatus();
+        setInterval(function() {
+            updateOrderStatus();
+        }, 60000);
     });
 
 
