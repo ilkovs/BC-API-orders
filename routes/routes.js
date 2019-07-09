@@ -4,8 +4,8 @@ require('dotenv').config();
 //Initialize new API Connection:
 var api = new Connection({
     hash: 'mf2ue9h',
-    token: 'lg7cdu7phvxmb8uflcq6cq3nzbkxobl',
-    cid: 'ququ4agtpaoiydgvtx2d4v1rr0eb2ok',
+    token: '7t3b61r0cc020a59202n9az8co2syif',
+    cid: 'myc9h4v8xmg6avutmm2lkzx5gupo5d8',
     host: 'https://api.bigcommerce.com' //The BigCommerce API Host
 });
 
@@ -24,53 +24,60 @@ var appRouter = function (app) {
         });
     });
 
-    app.get("/all", function (req, res) {
+    // get all orders from BC API
+        function getAllOrders() {
 
-        updateOrderStatus = () => {
-
-            api.get("/orders")
+            //filter the orders based on date created (the newest ones)
+            api.get("/orders?limit=250&sort=date_created:desc")
                 .then((response) => {
-                    let responseData = { response };
-                    res.status(200).json(responseData);
-
+                    let responseData = { response };   
+                    
                     var today = new Date();
-                    today.setDate(today.getDate() - 3);
+                    today.setUTCHours(today.getHours() - 1);
 
-
+                    // console.log(today)
+                    
+                    //loops through all orders
                     Object.keys(responseData.response).forEach(function () {
-
+    
                         for (var i = 0; i < responseData.response.length; i++) {
-
+                            
+                            //creating the right date format, the callback is a string otherwise
                             var orderDate = new Date(responseData.response[i].date_created);
-
-                            // console.log(orderDate + '  >  ' + today);
-
+    
+                            // if the digital order is not the right status and is from the last hour, update the order status
                             if (responseData.response[i].status_id !== 11 && orderDate > today) {
                                 api.put('/orders/' + responseData.response[i].id, {
                                     status_id: 11
                                 }).then(res => {
-
+    
                                 }).catch((err) => {
                                     console.log(err);
                                 });
                             }
-
+    
                         }
                     });
-
-
+    
+    
                 })
                 .catch((err) => {
                     console.log(err)
                 })
         }
+
+        getAllOrders();
+
+        ///run the function every hour
         setInterval(function() {
-            updateOrderStatus();
-        }, 60000);
-    });
+            getAllOrders();
+            console.log('the app is running');
+        }, 1000);
+
+
+    // });
 
 
 };
 
 module.exports = appRouter;
-
