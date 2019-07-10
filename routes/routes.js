@@ -33,7 +33,7 @@ var appRouter = function (app) {
                     let responseData = { response };   
                     
                     var today = new Date();
-                    today.setUTCHours(today.getHours() - 1);
+                    today.setUTCMinutes(today.getMinutes() - 5);
 
                     // console.log(today)
                     
@@ -45,10 +45,10 @@ var appRouter = function (app) {
                             //creating the right date format, the callback is a string otherwise
                             var orderDate = new Date(responseData.response[i].date_created);
     
-                            // if the digital order is not the right status and is from the last hour, update the order status
-                            if (responseData.response[i].status_id !== 11 && orderDate > today) {
+                            // if the digital order is not the right status and is from the last 5 minutes, update the order status
+                            if (responseData.response[i].status_id !== 9 && orderDate > today) {
                                 api.put('/orders/' + responseData.response[i].id, {
-                                    status_id: 11
+                                    status_id: 9
                                 }).then(res => {
     
                                 }).catch((err) => {
@@ -59,7 +59,6 @@ var appRouter = function (app) {
                         }
                     });
     
-    
                 })
                 .catch((err) => {
                     console.log(err)
@@ -68,11 +67,11 @@ var appRouter = function (app) {
 
         getAllOrders();
 
-        ///run the function every hour
+        ///run the function every 30 seconds
         setInterval(function() {
             getAllOrders();
             console.log('the app is running');
-        }, 1000);
+        }, 30000);
 
 
     // });
