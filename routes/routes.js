@@ -70,8 +70,8 @@ var appRouter = function (app) {
         ///run the function every 30 seconds
         setInterval(function() {
             getAllOrders();
-            console.log('the app is running');
-        }, 30000);
+            // console.log('the app is running');
+        }, 5000);
 
 
     // });
