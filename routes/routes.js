@@ -33,7 +33,7 @@ var appRouter = function (app) {
                     let responseData = { response };   
                     
                     var today = new Date();
-                    today.setUTCMinutes(today.getMinutes() - 5);
+                    today.setUTCMinutes(today.getMinutes() - 1);
 
                     // console.log(today)
                     
@@ -46,9 +46,9 @@ var appRouter = function (app) {
                             var orderDate = new Date(responseData.response[i].date_created);
     
                             // if the digital order is not the right status and is from the last 5 minutes, update the order status
-                            if (responseData.response[i].status_id !== 9 && orderDate > today) {
+                            if (responseData.response[i].status_id !== 11 && orderDate > today) {
                                 api.put('/orders/' + responseData.response[i].id, {
-                                    status_id: 9
+                                    status_id: 11
                                 }).then(res => {
     
                                 }).catch((err) => {
