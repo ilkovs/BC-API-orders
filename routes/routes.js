@@ -3,9 +3,9 @@ require('dotenv').config();
 
 //Initialize new API Connection:
 var api = new Connection({
-    hash: 'mf2ue9h',
-    token: '7t3b61r0cc020a59202n9az8co2syif',
-    cid: 'myc9h4v8xmg6avutmm2lkzx5gupo5d8',
+    hash: 'hweklwa',
+    token: 'mcgii4ixhh5psh6g0wmv0d761fhsrf4',
+    cid: 'pftkqmv9oid9d57vubm43xkcmtcnozn',
     host: 'https://api.bigcommerce.com' //The BigCommerce API Host
 });
 
@@ -46,7 +46,7 @@ var appRouter = function (app) {
                             var orderDate = new Date(responseData.response[i].date_created);
     
                             // if the digital order is not the right status and is from the last 5 minutes, update the order status
-                            if (responseData.response[i].status_id !== 11 && orderDate > today) {
+                            if (responseData.response[i].status_id == 10 && orderDate > today) {
                                 api.put('/orders/' + responseData.response[i].id, {
                                     status_id: 11
                                 }).then(res => {
