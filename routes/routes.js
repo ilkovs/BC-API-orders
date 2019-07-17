@@ -3,9 +3,9 @@ require('dotenv').config();
 
 //Initialize new API Connection:
 var api = new Connection({
-    hash: 'hweklwa',
-    token: 'mcgii4ixhh5psh6g0wmv0d761fhsrf4',
-    cid: 'pftkqmv9oid9d57vubm43xkcmtcnozn',
+    hash: 'mf2ue9h',
+    token: 'mbeiekzvdq33s4e04ivl6cmvrq5jope',
+    cid: 'jl0li1hlcb4lpgcg0k2nvrs45tu1nxc',
     host: 'https://api.bigcommerce.com' //The BigCommerce API Host
 });
 
@@ -70,7 +70,7 @@ var appRouter = function (app) {
         ///run the function every 30 seconds
         setInterval(function() {
             getAllOrders();
-            // console.log('the app is running');
+            console.log('the app is running');
         }, 5000);
 
 
